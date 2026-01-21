@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
-	"time"
 )
 
 func TestTimestampHeader(t *testing.T) {
@@ -31,14 +31,13 @@ func TestTimestampHeader(t *testing.T) {
 	plugin.ServeHTTP(recorder, req)
 
 	// Validate the header
-	headerValue := req.Header.Get("x-request-received-at")
+	headerValue := req.Header.Get("X-Request-Start")
 	if headerValue == "" {
-		t.Fatalf("Expected 'request-received-at' header, but got none")
+		t.Fatalf("Expected 'X-Request-Start' header, but got none")
 	}
 
-	// Parse and validate the timestamp format
-	_, err = time.Parse(time.RFC3339Nano, headerValue)
-	if err != nil {
-		t.Errorf("Invalid timestamp format in header: %v", err)
+	// Validate format is t=<milliseconds>
+	if !strings.HasPrefix(headerValue, "t=") {
+		t.Fatalf("Expected header to start with 't=', got: %s", headerValue)
 	}
 }

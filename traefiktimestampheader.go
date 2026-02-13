@@ -3,6 +3,7 @@ package traefiktimestampheader
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"time"
 )
@@ -27,9 +28,9 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 	}, nil
 }
 
-// ServeHTTP adds the "request-received-at" header and forwards the request.
+// ServeHTTP adds the "X-Request-Start" header and forwards the request.
 func (r *RequestTimestamp) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	timestamp := time.Now().UTC().Format(time.RFC3339Nano)
-	req.Header.Set("x-request-received-at", timestamp)
+	msec := time.Now().UnixMilli()
+	req.Header.Set("X-Request-Start", fmt.Sprintf("t=%d", msec))
 	r.next.ServeHTTP(rw, req)
 }

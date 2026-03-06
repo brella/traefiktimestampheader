@@ -27,7 +27,7 @@ The following declaration (given here in YAML) defines a plugin:
 experimental:
   plugins:
     example:
-      moduleName: github.com/yurasavin/traefiktimestampheader
+      moduleName: github.com/brella/traefiktimestampheader
       version: v1.0.0
 ```
 

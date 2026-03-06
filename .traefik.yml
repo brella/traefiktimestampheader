@@ -2,7 +2,7 @@ displayName: Timestamp Header
 type: middleware
 iconPath: .assets/icon.png
 
-import: github.com/yurasavin/traefiktimestampheader
+import: github.com/brella/traefiktimestampheader
 
 summary: 'Add current timestamp header to requests'
 

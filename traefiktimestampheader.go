@@ -30,7 +30,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 
 // ServeHTTP adds the "X-Request-Start" header and forwards the request.
 func (r *RequestTimestamp) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	msec := time.Now().UnixMilli()
-	req.Header.Set("X-Request-Start", fmt.Sprintf("t=%d", msec))
+	sec := float64(time.Now().UnixMilli()) / 1000.0
+	req.Header.Set("X-Request-Start", fmt.Sprintf("t=%.3f", sec))
 	r.next.ServeHTTP(rw, req)
 }
